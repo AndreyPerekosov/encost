@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900|PT+Sans&display=swap&subset=cyrillic" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+
+<body>
+
+    <div class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <form action="{% url 'client_filter' %}" method="post">
+                        {% csrf_token %}
+                        <label for="client_filter">Client </label>
+                        <input id="client_filter" type="text" name="client_filter" class="form-control" placeholder="client" list="clients">
+                        <datalist id="clients">
+                            {% for client in clients %}
+                                <option value="{{ client }}"></option>
+                            {% endfor %}
+                        </datalist>
+                        <input type="submit" value="Filter">
+                    </form>
+                </div>
+                <div class="col">
+                    <form action="{% url 'equipment_filter' %}" method="post">
+                        {% csrf_token %}
+                        <label for="equipment_filter">Equipment </label>
+                        <input id="equipment_filter" type="text" name="equipment_filter" class="form-control" placeholder="equipment" list="equipments">
+                        <datalist id="equipments">
+                            {% for equipment in equipments %}
+                                <option value="{{ equipment }}"></option>
+                            {% endfor %}
+                        </datalist>
+                        <input type="submit" value="Filter">
+                    </form>
+                </div>
+                <div class="col">
+                    <form action="{% url 'mode_filter' %}" method="post">
+                        {% csrf_token %}
+                        <label for="mode_filter">Mode </label>
+                        <input id="mode_filter" type="text" name="mode_filter" class="form-control" placeholder="mode" list="modes">
+                        <datalist id="modes">
+                            {% for mode in modes %}
+                                <option value="{{ mode }}"></option>
+                            {% endfor %}
+                        </datalist>
+                        <input type="submit" value="Filter">
+                    </form>
+                </div>
+                <div class="col">
+                    <form action="{% url 'minute_filter' %}" method="post">
+                        {% csrf_token %}
+                        <label for="minute_filter">Minute</label>
+                        <input id="minute_filter" type="number" name="minute_filter" class="form-control" placeholder="minute">
+                        <input type="submit" value="Filter">
+                    </form>
+                </div>
+                <div class="col">
+                    <form action="{% url 'start_date_filter' %}" method="post">
+                        {% csrf_token %}
+                        <label for="start_date_filter">Start Date</label>
+                        <input id="start_date_filter" type="date" name="start_date_filter" class="form-control" required pattern="\d{4}-\d{2}-\d{2}">
+                        <input type="submit" value="Filter">
+                    </form>
+                </div>
+                <div class="col">
+                    <form action="{% url 'start_time_filter' %}" method="post">
+                        {% csrf_token %}
+                        <label for="start_time_filter">Start Time</label>
+                        <input id="start_time_filter" type="time" name="start_time_filter" class="form-control">
+                        <input type="submit" value="Filter">
+                    </form>
+                </div>
+                <div class="col">
+                    <form action="{% url 'end_date_filter' %}" method="post">
+                        {% csrf_token %}
+                        <label for="end_date_filter">End Date</label>
+                        <input id="end_date_filter" type="date" name="end_date_filter" class="form-control" required pattern="\d{4}-\d{2}-\d{2}">
+                        <input type="submit" value="Filter">
+                    </form>
+                </div>
+                <div class="col">
+                    <form action="{% url 'end_time_filter' %}" method="post">
+                        {% csrf_token %}
+                        <label for="end_time_filter">End Time</label>
+                        <input id="end_time_filter" type="time" name="end_time_filter" class="form-control">
+                        <input type="submit" value="Filter">
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                {% for item in row_names %}
+                    <div class="col">
+                        {{ item }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% for row in content %}
+                <div class="row">
+                    {% for item in row %}
+                        <div class="col">
+                            {{ item|default:"No data" }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
