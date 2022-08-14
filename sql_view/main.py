@@ -62,22 +62,23 @@ def create_tables(*args, **kwargs):
                         (value, count_id))
             count_id += 1
 
+
 @with_connect_db(DB_SETTINGS)
 def create_view_for_id(*args, **kwargs):
     c = args[0]
     tables_data = kwargs['view']
     el_id = kwargs['id']
-    c.execute(SQL("CREATE VIEW {} AS"
+    c.execute(SQL("CREATE VIEW {} AS "
                   "SELECT p.endpoint_id, p.mode_start,"
                   "to_char(p.mode_start::timestamp + (p.mode_duration || ' minute')::interval, 'YYYY-MM-DD HH24:MI:SS' || '+03') as mode_end,"
                   "p.mode_duration, p.label, r.reason, o.operator_name,"
                   "(SELECT SUM(e.kwh::float) FROM energy e WHERE event_time::timestamp BETWEEN "
                   "p.mode_start::timestamp "
                   "AND (p.mode_start::timestamp + (p.mode_duration || ' minute')::interval) "
-                  "AND e.endpoint_id=p.endpoint_id) as energy_sum FROM periods as p"
+                  "AND e.endpoint_id=p.endpoint_id) as energy_sum FROM periods as p "
                   "LEFT JOIN reasons as r on r.endpoint_id=p.endpoint_id "
                   "AND r.event_time::timestamp BETWEEN p.mode_start::timestamp "
-                  "AND p.mode_start::timestamp + (p.mode_duration || ' minute')::interval"
+                  "AND p.mode_start::timestamp + (p.mode_duration || ' minute')::interval "
                   "LEFT JOIN operators o on p.endpoint_id = o.endpoint_id "
                   "AND (o.login_time::timestamp BETWEEN p.mode_start::timestamp "
                   "AND (p.mode_start::timestamp + (p.mode_duration || ' minute')::interval) "
@@ -104,7 +105,7 @@ def main():
     ## create tables
     # create_tables(data=data)
     ## create view
-
+    # create_view_for_id(view='endpoint', id=499)
 
 
 if __name__ == '__main__':
